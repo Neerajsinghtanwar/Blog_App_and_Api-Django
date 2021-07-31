@@ -1,0 +1,80 @@
+{% extends "app/base.html" %}
+
+{% block title %}Dashboard{% endblock title %}
+
+{% block msg %}
+<div>
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Success - </strong>
+            {% else %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Error - </strong>
+            {% endif %}
+                {{message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock msg %}
+
+{% block side %}
+    <div class="clo-sm-2 text-white mx-3 text-center"><br><br><br><br><br>
+        <h4 class='my-5'>Profile</h4>
+        <h5>{{fullname}}</h5>
+        {% if request.user.is_superuser %}
+            <h6>(Superuser)</h6>
+
+        {% elif request.user.is_staff %}
+            <h6>(Staff)</h6>
+            
+        {% else %}
+            {% for group in groups %}
+            <h6>({{group.name}})</h6>
+            {% endfor %}
+        {% endif %}
+
+        <h6>IP: {{ip}}</h6>
+        <button type='button' class='btn btn-danger mt-3'>Login Times <span class='badge badge-light'>{{ct}}</span></button>
+    </div>
+{% endblock side %} 
+
+{% block content %}
+    <div class="col-sm-10">
+        <h3 class="text-white my-5">Dashboard</h3>
+        <a href="{% url 'createblog' %}" class="btn btn-success">Create</a>
+        <br><br>
+        {% for blog in blogs %}
+        <hr>
+        <div>
+            {{blog.creator|capfirst}}
+        </div>
+        
+        <div>
+            {{blog.date}}
+        </div>
+        <hr>
+        <div class="jumbotron jumbotron-fluid jumbo-color">
+            <div class="container">
+                <h1 class="display-4">{{blog.title}}</h1>
+                <p class="lead">{{blog.desc}}</p>
+            </div>
+        </div> 
+        <div class="text-right">
+            <a href="{% url 'editblog' blog.id blog.slug %}" class="btn btn-primary">Update</a>
+            <a href="{% url 'deleteblog' blog.id blog.slug%}" class="btn btn-danger">Delete</a> <br>
+         </div>
+        {% endfor %}        
+    </div>
+
+{% endblock content %}
+
+{% block page %}
+<hr>
+{% include 'app/pagination.html' %}
+{% endblock page %}

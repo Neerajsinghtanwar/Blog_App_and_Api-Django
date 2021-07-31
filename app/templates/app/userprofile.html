@@ -1,0 +1,20 @@
+{% extends "app/base.html" %}
+
+{% block title %}Profile{% endblock title %}
+
+{% block content %}
+    <div class="col-sm-10">
+        <h3 class="text-white my-5">Profile Page</h3>
+        <a href="{% url 'edituserprofile' %}" class="btn btn-success">Edit</a>
+        <br>
+        <br>
+        <form action="" method="POST" novalidate>
+        {% csrf_token %}
+            {% for fm in form %}
+                {{fm.label_tag}} {{fm}} {{fm.errors|striptags}} <br>
+            {% endfor %}
+            
+        </form>
+        <br>
+    </div>
+{% endblock content %}

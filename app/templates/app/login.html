@@ -1,0 +1,22 @@
+{% extends "app/base.html" %}
+
+{% block title %}Login{% endblock title %}
+
+{% block content %}
+    <div class="col-sm-10">
+        <h3 class="text-white my-5">Login Page</h3>
+        <form action="" method="POST" novalidate>
+        {% csrf_token %}
+            {% for fm in form %}
+                {{fm.label_tag}} {{fm}} {{fm.errors|striptags}} <br>
+            {% endfor %}
+            <input type="submit" value="Login" class="btn btn-primary">
+            <a class="mx-2" href="{% url 'signup' %}"> Signup</a>
+            {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <p>{{error}}</p>
+            {% endfor %}
+            {% endif %}
+        </form>
+    </div>
+{% endblock content %}

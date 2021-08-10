@@ -1,5 +1,5 @@
 
-# Library_Management_App_and_Api-Django
+# Blog_App_and_Api-Django
 
 
 ## Set Up
